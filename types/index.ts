@@ -1,0 +1,8 @@
+import { z } from 'zod';
+export const profileSchema = z.object({country:z.string().trim().min(2).max(80),educationLevel:z.enum(['finishing_high_school','undergraduate','graduate']),fieldOfInterest:z.string().trim().min(2).max(120),languages:z.array(z.string().trim().min(1).max(40)).min(1).max(10),gpa:z.number().min(0).max(4),age:z.number().int().min(13).max(100).optional()});
+export type Profile = z.infer<typeof profileSchema>;
+export const scholarshipSchema = z.object({name:z.string().min(1).max(200),provider:z.string().max(200),hostCountry:z.string().max(100),level:z.string().max(100),coverage:z.string().max(1000),deadline:z.string().nullable(),requirements:z.array(z.string().max(500)).max(20),fees:z.string().max(500),officialSource:z.boolean(),url:z.string().url(),trust:z.enum(['green','yellow','red']),trustReasons:z.array(z.string()).max(15),eligibility:z.enum(['eligible','not_eligible','almost']),missing:z.array(z.string()).max(20)});
+export type Scholarship = z.infer<typeof scholarshipSchema>;
+export type Page = {url:string;content:string};
+export type ActionPlan = {scholarshipName:string;deadline:string|null;warning:string;steps:{title:string;date:string|null;detail:string;overdue:boolean}[]};
+export type ResearchEvent = {type:'progress';step:number;message:string}|{type:'result';scholarships:Scholarship[];mock:boolean;warnings:string[]}|{type:'error';message:string};

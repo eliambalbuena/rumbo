@@ -1,0 +1,3 @@
+export function useMocks(){ const value=process.env.USE_MOCKS ?? 'true'; if(!['true','false'].includes(value)) throw new Error('USE_MOCKS must be true or false'); return value==='true'; }
+export function required(name:string){const value=process.env[name];if(!value)throw new Error(`Missing ${name}. Configure .env and restart the server.`);return value;}
+export function publicUrl(raw:string){try{const u=new URL(raw);const h=u.hostname.toLowerCase();return u.protocol==='https:' && !u.username && !u.password && !u.port && h.includes('.') && !/^(localhost|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h) && !h.endsWith('.local') && !h.includes(':');}catch{return false;}}

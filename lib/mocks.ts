@@ -1,0 +1,12 @@
+import type {Scholarship} from '@/types';
+export function mockScholarships():Scholarship[]{
+ const rows=[
+ ['MEXT Undergraduate Scholarship','Ministry of Education, Japan','Japan','undergraduate','Tuition, monthly stipend and airfare','https://www.studyinjapan.go.jp/en/planning/scholarships/mext-scholarships/','None','2027-05-15',['High school completion','English or Japanese','Age criteria depend on embassy call']],
+ ['Türkiye Scholarships','Government of Türkiye','Türkiye','undergraduate','Tuition, housing, insurance and monthly stipend','https://www.turkiyeburslari.gov.tr/','None','2027-02-20',['High school completion','Minimum academic achievement','Age criteria apply']],
+ ['Erasmus Mundus Joint Masters','European Commission','Multiple European countries','graduate','Participation costs, travel and living allowance','https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-individuals/students/erasmus-mundus-joint-masters','Varies by programme','2027-01-15',["Bachelor degree before enrolment",'English language certificate','Programme-specific prerequisites']],
+ ['DAAD Study Scholarships','German Academic Exchange Service','Germany','graduate','Monthly stipend, insurance and travel support','https://www.daad.de/en/studying-in-germany/scholarships/','None','2026-11-30',["Bachelor degree",'English or German certificate','Programme-specific academic requirements']],
+ ['Global Study Access Fair (fictional)','Study Access Agency','Canada','undergraduate','Advertised scholarship matching; award not confirmed','https://study-access.example/','Paid agency consultation','2027-03-01',['Attend recruitment event','Pay agency consultation fee']],
+ ['Guaranteed Global Grant (fictional)','Global Grant Express','United States','undergraduate','Claims guaranteed full funding without selection','https://global-grant.example/','Upfront processing payment of $299','2027-04-01',['Pay upfront processing fee','Guaranteed acceptance advertised']]
+ ];
+ return rows.map(([name,provider,hostCountry,level,coverage,url,fees,deadline,requirements])=>({name,provider,hostCountry,level,coverage,url,fees,deadline,requirements,officialSource:!String(url).includes('.example'),trust:'yellow',trustReasons:[],eligibility:'almost',missing:[]} as Scholarship));
+}
