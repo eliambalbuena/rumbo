@@ -36,7 +36,7 @@ async function main() {
  calls.length=0;
  globalThis.fetch=async(_url,init)=>{const body=JSON.parse(String(init?.body));calls.push(body);const task=JSON.parse(body.messages[1].content).task as string;const output=task.startsWith('Plan 4-6')?{queries:['a','b','c','d']}:task.startsWith('Assess fraud')?{trust:'green',reasons:['Evidence reviewed.']}:task.startsWith('Extract actual')?{scholarships:[scholarship]}:{eligibility:'almost',missing:['Confirm certificate.']};return ok(JSON.stringify(output),body.model);};
  await planQueries(profile);await scoreTrust(scholarship);await parseScholarships([{url:scholarship.url,content:'Test source'}]);await checkEligibility(scholarship,profile);
- assert.deepEqual(calls.map(c=>c.model),[fast,fast,process.env.NEBIUS_MODEL_SMART,process.env.NEBIUS_MODEL_SMART]);
+ assert.ok(JSON.stringify(calls.at(-1)).includes('gpaScale'));assert.deepEqual(calls.map(c=>c.model),[fast,fast,process.env.NEBIUS_MODEL_SMART,process.env.NEBIUS_MODEL_SMART]);
  console.log('PASS: JSON extraction, unsupported-format retry, model fallback/routing, AI plan, backward dates, unknown dates, expired steps and API-failure template fallback. No external API calls.');
  } finally {globalThis.fetch=originalFetch;process.env=originalEnv;}
 }

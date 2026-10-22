@@ -76,3 +76,9 @@ MIT — see LICENSE.
 Use “Got an offer? Check it” to paste a public HTTPS URL or offer text (10–12,000 characters). POST /api/verify accepts `{offer}`. Live mode extracts URLs with Tavily, identifies the organization and award with the smart model, searches for complaints/reviews and official scholarship evidence, then assesses service sales, payments, guarantees and corroboration. Only actually retrieved source URLs are returned. Search failures are disclosed; incomplete evidence cannot get green. Complaints are allegations, not proof. Mock mode provides trusted and scam examples and never calls APIs; other input gets an explicit unverified result. Remove personal information before checking an offer.
 
 Research progress events optionally include `detail: {kind: "query" | "domain", value: string}`. Query events are emitted immediately before search calls and domain events before page extraction, including cache/mock reads. The profile screen shows this activity live alongside the current stage.
+
+## Results and runtime mode
+
+Results are grouped into You can apply, Almost there and For your future (education-level mismatches only). Other ineligible opportunities remain in Not a match right now. Each section sorts by nearest deadline, with unknown dates last. Warning signs found always stays visible at the end regardless of the trust filter. Red offers expose reasons instead of a plan; both the plan API and planner reject red offers. Yellow and red cards surface the main warning.
+
+The home route is force-dynamic: the Demo/Live badge is evaluated at runtime. After editing .env, restart the server to load new environment values; no rebuild is required to update the badge.
