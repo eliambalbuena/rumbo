@@ -9,3 +9,5 @@
 
 .activity-log{max-height:190px;overflow-y:auto;list-style:none;padding:0;margin:18px 0 0;border-top:1px solid var(--line);scrollbar-color:var(--green) var(--paper)}.activity-log li{font-size:11px;line-height:1.6;padding:8px 0;overflow-wrap:anywhere}.activity-log li strong{color:var(--green)}
 .avoid-next{margin:18px 0;font-size:13px;line-height:1.7;color:var(--muted)}
+
+.preparation-advice{padding:16px 0;border-top:1px solid var(--line);margin-bottom:16px}.preparation-advice h3{font-size:15px}.preparation-advice ol{padding-left:18px;font-size:12px;line-height:1.7}.preparation-advice li{margin-top:12px}.preparation-advice p{color:var(--muted)}

@@ -1,0 +1,9 @@
+import {z} from 'zod';import type {Profile,Scholarship} from '@/types';import {useMocks} from '../config';import {generateJSON} from '../llm';import {isEducationMismatch,needsOfferVerification} from '../results';
+export const preparationAdviceSchema=z.object({steps:z.array(z.object({title:z.string().min(1).max(150),detail:z.string().min(1).max(1000)})).min(2).max(3)});
+export type PreparationAdvice=z.infer<typeof preparationAdviceSchema>;
+export async function prepareForFuture(s:Scholarship,p:Profile):Promise<PreparationAdvice>{
+ if(s.trust==='red'||needsOfferVerification(s)||!isEducationMismatch(s))throw new Error('This offer is not suitable for future preparation advice.');
+ const fallback:PreparationAdvice={steps:[{title:'Build language readiness',detail:`Practise ${p.languages.join(' / ')} regularly and compare the programme's accepted certificates before booking an exam.`},{title:'Strengthen your academic record',detail:`Focus on your ${p.fieldOfInterest} coursework, keep your average strong and save transcripts on the ${p.gpaScale} scale.`},{title:'Complete the required degree and explore',detail:"Finish your bachelor's degree, build relevant projects and relationships with future referees. Recheck eligibility in the next suitable call."}]};
+ if(useMocks())return fallback;
+ try{return await generateJSON('Give 2–3 concrete actions the student can start TODAY to prepare for an education-level opportunity in the future: language readiness, academic grades and relevant experience/degree completion. Tailor to their current education, country, languages and actual scholarship requirements. No current application timeline, deadlines, guarantees or invented requirements.',{scholarship:s,profile:p,today:new Date().toISOString().slice(0,10)},preparationAdviceSchema,'smart');}catch{console.warn('[preparation] Using preparation template fallback.');return fallback;}
+}
