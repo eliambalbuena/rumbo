@@ -20,6 +20,7 @@ export function scheduleSteps(steps: z.infer<typeof preparationSchema>['steps'],
 }
 
 export async function buildActionPlan(s: Scholarship, p: Profile): Promise<ActionPlan> {
+  if (s.trust === 'red') throw new Error('Plans are unavailable for high-risk offers.');
   const today = new Date().toISOString().slice(0, 10);
   const valid = !!s.deadline && /^\d{4}-\d{2}-\d{2}$/.test(s.deadline) && !Number.isNaN(Date.parse(s.deadline)) && new Date(s.deadline).toISOString().slice(0, 10) === s.deadline;
   const deadline = valid ? s.deadline : null;
