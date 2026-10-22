@@ -5,4 +5,4 @@ export const scholarshipSchema = z.object({name:z.string().min(1).max(200),provi
 export type Scholarship = z.infer<typeof scholarshipSchema>;
 export type Page = {url:string;content:string};
 export type ActionPlan = {scholarshipName:string;deadline:string|null;warning:string;steps:{title:string;date:string|null;detail:string;overdue:boolean}[]};
-export type ResearchEvent = {type:'progress';step:number;message:string}|{type:'result';scholarships:Scholarship[];mock:boolean;warnings:string[]}|{type:'error';message:string};
+export type ResearchEvent = {type:'progress';step:number;message:string;detail?:{kind:'query'|'domain';value:string}}|{type:'result';scholarships:Scholarship[];mock:boolean;warnings:string[]}|{type:'error';message:string};

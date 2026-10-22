@@ -74,3 +74,5 @@ MIT — see LICENSE.
 ## Offer verification
 
 Use “Got an offer? Check it” to paste a public HTTPS URL or offer text (10–12,000 characters). POST /api/verify accepts `{offer}`. Live mode extracts URLs with Tavily, identifies the organization and award with the smart model, searches for complaints/reviews and official scholarship evidence, then assesses service sales, payments, guarantees and corroboration. Only actually retrieved source URLs are returned. Search failures are disclosed; incomplete evidence cannot get green. Complaints are allegations, not proof. Mock mode provides trusted and scam examples and never calls APIs; other input gets an explicit unverified result. Remove personal information before checking an offer.
+
+Research progress events optionally include `detail: {kind: "query" | "domain", value: string}`. Query events are emitted immediately before search calls and domain events before page extraction, including cache/mock reads. The profile screen shows this activity live alongside the current stage.
