@@ -82,3 +82,17 @@ Research progress events optionally include `detail: {kind: "query" | "domain", 
 Results are grouped into You can apply, Almost there and For your future (education-level mismatches only). Other ineligible opportunities remain in Not a match right now. Each section sorts by nearest deadline, with unknown dates last. Warning signs found always stays visible at the end regardless of the trust filter. Red offers expose reasons instead of a plan; both the plan API and planner reject red offers. Yellow and red cards surface the main warning.
 
 The home route is force-dynamic: the Demo/Live badge is evaluated at runtime. After editing .env, restart the server to load new environment values; no rebuild is required to update the badge.
+
+## Demo and application tools
+
+The high-school demo profile (after entering citizenship, default grade 8/10 and languages) meets the explicitly simplified Türkiye fixture requirements, so all three useful eligibility categories are demonstrated. This is illustrative eligibility, not a statement about the real programme. Empty groups are hidden. Yellow agencies, fairs and paid services have their own Check before you engage section and open the verifier with their URL; they cannot generate application plans. Red cards show warnings and protective actions only. For your future offers provide 2–3 preparation actions through POST /api/plan with mode=prepare (smart model in real mode; template in mock mode or on provider failure).
+
+Research replaces the profile with a dedicated progress view showing stage checks, queries, domains and provider labels. Activity animation respects reduced-motion. The home page explains the problem, the three-step workflow and links directly to verification.
+
+## Plan checklist and calendar
+
+Each plan has checkboxes saved in localStorage, keyed by opportunity URL, deadline and interface language. Storage failures do not prevent using the checklist; when storage is blocked, progress is retained only while the current plan remains mounted. Changing output language returns to the profile so newly generated advice matches that language.
+
+Add to calendar downloads an RFC 5545 .ics file with one all-day event per dated step. Each event has a stable UID, exclusive next-day end date, escaped descriptions and UTF-8-safe folded lines. Undated steps are excluded and an entirely undated plan cannot be exported. Events contain the plan warning and source URL; preparation dates remain suggestions, not official milestones.
+
+Browser regression tests cover desktop/mobile layouts, service and red actions, preparation advice, ES/EN persistence, provider progress labels, reduced-motion, checklist persistence, calendar downloads and blocked browser storage. Set RUMBO_TEST_URL to test a server on a port other than 3000.

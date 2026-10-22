@@ -1,0 +1,12 @@
+'use client';
+import {useEffect,useState} from 'react';import {CalendarPlus} from 'lucide-react';import type {ActionPlan} from '@/types';import {getCopy,type Locale} from '@/lib/copy';import {buildCalendar} from '@/lib/calendar';
+export default function PlanChecklist({plan,source,locale}:{plan:ActionPlan;source:string;locale:Locale}){
+ const c=getCopy(locale);const t=(key:string)=>c.ui[key];const storageKey='rumbo-plan:'+source+':'+(plan.deadline??'unknown')+':'+locale;
+ const [completed,setCompleted]=useState<string[]>([]);
+ useEffect(()=>{try{const stored=JSON.parse(localStorage.getItem(storageKey)??'[]');setCompleted(Array.isArray(stored)?stored.filter(v=>typeof v==='string'):[]);}catch{setCompleted([]);}},[storageKey]);
+ function toggle(id:string){setCompleted(old=>{const next=old.includes(id)?old.filter(v=>v!==id):[...old,id];try{localStorage.setItem(storageKey,JSON.stringify(next));}catch{}return next;});}
+ function download(){const url=URL.createObjectURL(new Blob([buildCalendar(plan,source)],{type:'text/calendar;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='rumbo-application-plan.ics';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+ const dated=plan.steps.some(step=>!!step.date);
+ const dateLabel=(value:string|null)=>value?new Date(value+'T12:00:00Z').toLocaleDateString(locale==='es'?'es-AR':'en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}):t('unknownDate');
+ return <><div className="calendar-actions"><button className="calendar-button" disabled={!dated} onClick={download}><CalendarPlus size={18}/>{t('calendar')}</button>{!dated?<p>{t('calendarEmpty')}</p>:plan.steps.some(step=>!step.date)&&<p>{t('calendarUnknown')}</p>}</div><ol className="timeline">{plan.steps.map((step,index)=>{const id=(step.date??'unknown')+'|'+step.title;const done=completed.includes(id);return <li key={id} className={done?'completed-step':''}><div className="timeline-number">{index+1}</div><div className="timeline-content"><div className="timeline-date">{dateLabel(step.date)} {step.overdue&&<span>{t('overdue')}</span>}</div><h2>{step.title}</h2><p>{step.detail}</p><label className="step-check"><input type="checkbox" checked={done} onChange={()=>toggle(id)}/>{done?t('done'):t('complete')}<span className="sr-only">: {step.title}</span></label></div></li>;})}</ol></>;
+}
