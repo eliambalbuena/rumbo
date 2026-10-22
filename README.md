@@ -1,6 +1,6 @@
 # Rumbo
 
-An AI scholarship research agent built for the Nebius × NVIDIA Global AI Hackathon. English UI, Next.js App Router, TypeScript and Tailwind CSS. Nemotron via Nebius Token Factory and Tavily official JavaScript SDK.
+An AI scholarship research agent built for the Nebius × NVIDIA Global AI Hackathon. English/Spanish UI, Next.js App Router, TypeScript and Tailwind CSS. Nemotron via Nebius Token Factory and Tavily official JavaScript SDK.
 
 ## Run locally
 
@@ -57,7 +57,7 @@ Each step lives in `lib/agent/`: planQueries → searchCandidates → extractPag
 
 `POST /api/plan` accepts `{profile, scholarship}` and returns a suggested six-step backward timeline. Unknown or invalid deadlines yield undated steps. Past preparation dates are marked, never silently moved. In real mode, Nemotron (smart tier) proposes requirement-specific steps and conservative preparation estimates for passport issuance, document legalization/apostilles, certified translations, exam booking/sitting/results, references and submission. Estimates must be confirmed locally and are not official processing guarantees. The model returns integer days-before-deadline offsets; the server calculates dates backward from the validated deadline and marks expired dates using today (UTC). Missing deadlines remain undated. Mock mode uses the original six-step template. Any AI request, parsing or validation failure falls back to that same template with an explicit warning that its generic dates may not accommodate long procedures. Plans can spend LLM credits only in real mode.
 
-`components/rumbo-app.tsx` provides home, results and plan screens, trust filters, expanded reasons, loading/error/empty states, keyboard focus and printable plans. `lib/copy.ts` centralizes core UI labels; remaining local UI text and agent output are English and can be extracted into locale dictionaries later.
+`components/rumbo-app.tsx` provides home, results and plan screens, trust filters, expanded reasons, loading/error/empty states, keyboard focus and printable plans. `lib/copy.ts` centralizes core UI labels; English and Spanish interface copy and fixture translations live in lib/copy.ts. The header remembers ES/EN in localStorage with safe fallback if storage is denied. API requests pass locale (en/es); all model steps receive the selected output language, and model cache keys include locale. Switching language returns to the profile so existing AI output is never mislabeled as translated.
 
 ## Cache and development limitations
 
