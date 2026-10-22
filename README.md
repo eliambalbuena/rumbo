@@ -49,7 +49,7 @@ For the first browser test run: `npx playwright install chromium`. End-to-end te
 
 ## Flow and files
 
-`types/index.ts` defines Profile, Scholarship, ActionPlan and streamed events with runtime request/output schemas. GPA is explicitly on a 0–4 scale; citizenship is a free-text country, languages are comma-separated, age is optional.
+`types/index.ts` defines Profile, Scholarship, ActionPlan and streamed events with runtime request/output schemas. Profile.gpa stores the original grade and Profile.gpaScale stores 1-5, 1-10, 0-4, 0-100 or other. Other requires gpaScaleDescription. Bounds are validated per scale. The eligibility model receives the original value and scale and must explain any equivalence; ambiguous conversions stay almost. Citizenship starts empty; language input is normalized with comma + space; age is optional.
 
 Each step lives in `lib/agent/`: planQueries → searchCandidates → extractPages → parseScholarships → scoreTrust → checkEligibility. `runResearch` orchestrates these six research stages; `buildActionPlan` runs on selection. Search planning uses 4–6 queries, search keeps up to eight distinct URLs, and page extraction bounds text sent to the LLM. Trust combines domain/payment/agency rules with an LLM assessment that can downgrade confidence. Parsed URLs must match extracted sources. Institutional domain signals do not prove authenticity. Eligibility remains `almost` when required facts cannot be confirmed.
 
